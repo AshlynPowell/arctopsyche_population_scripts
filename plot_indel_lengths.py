@@ -1,17 +1,18 @@
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator, NullLocator
 import numpy as np
+from sys import argv
+
+# THIS SCRIPT REQUIRES MATPLOTLIB
 
 max_len = 100
-# max_len = 1213 # mafft
-# max_len = 1188 # muscle
-# max_len = 2201 # prank
 
 lengths = []
 
-# with open("indels_all.csv") as file:
-with open("indels_all_muscle.csv") as file:
-# with open("indels_all_prank.csv") as file:
+csv_file = argv[1]
+output_pdf = argv[2]
+
+with open(csv_file) as file:
     file.readline()
     for line in file:
         items = line.strip().split(",")
@@ -35,12 +36,8 @@ ax.set_ylabel("Count", size=12)
 ax.tick_params(axis='both', which='major', labelsize=10)
 ax.xaxis.set_major_locator(MultipleLocator(5))
 ax.xaxis.set_minor_locator(NullLocator())
-ax.yaxis.set_major_locator(MultipleLocator(50))
-ax.yaxis.set_minor_locator(MultipleLocator(25))
+ax.yaxis.set_major_locator(MultipleLocator(10))
+ax.yaxis.set_minor_locator(MultipleLocator(5))
 ax.margins(x=0.01)
 ax.spines[['right', 'top']].set_visible(False)
-# plt.savefig("indel_lengths(100).pdf",format='pdf',dpi=1200,bbox_inches='tight', pad_inches=0.25)
-plt.savefig("indel_lengths(100)_muslce.pdf",format='pdf',dpi=1200,bbox_inches='tight', pad_inches=0.25)
-# plt.savefig("indel_lengths(100)_prank.pdf",format='pdf',dpi=1200,bbox_inches='tight', pad_inches=0.25)
-
-
+plt.savefig(output_pdf,format='pdf',dpi=1200,bbox_inches='tight', pad_inches=0.25)
