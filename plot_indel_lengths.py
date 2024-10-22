@@ -9,6 +9,7 @@ max_len = 100
 
 lengths = []
 
+# csv_file from running pull_indels.py
 csv_file = argv[1]
 output_pdf = argv[2]
 
