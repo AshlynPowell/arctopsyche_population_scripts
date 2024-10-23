@@ -41,15 +41,28 @@ def matches(seq):
 		positions.append((m.start(),m.end()))
 	return positions
 
+def get_population(allele):
+	"""
+	Description: Return which population an allele is from
+	"""
+	pop1 = [1,2,3,4,5,6,7,8]
+	pop2 = [9,10,11,12,13,14,15,16,17,18]
+
+	individual = int(allele.split("_")[0])
+	if individual in pop1:
+		return "1"
+	else:
+		return "2"
+
 if __name__ == "__main__":
 	
 	fasta_file = argv[1]
-	pop = argv[2]
-	name = argv[3]
+	allele = argv[2]
+	pop = get_population(allele)
 
 	names, seqs = read_fasta(fasta_file)
 	
-	index = names.index(name)
+	index = names.index(allele)
 	seq = seqs[index]
 
 	positions = matches(seq)
@@ -64,7 +77,7 @@ if __name__ == "__main__":
 	fig.set_size_inches(12,5)
 	bottom = np.zeros(len(points))
 	ax.bar(list(range(1,len(points)+1)), points, width=0.5, bottom=bottom, color="#020080")
-	ax.set_title(f"Population: {pop}  Allele: {name}", loc="right", size=18)
+	ax.set_title(f"Population: {pop}  Allele: {allele}", loc="right", size=18)
 	ax.set_xlabel("G-rich Spacer Number", size=18)
 	ax.set_ylabel("Length (Amino Acids)", size=18)
 	ax.tick_params(axis='both', which='major', labelsize=14)
@@ -75,6 +88,6 @@ if __name__ == "__main__":
 	ax.set_ylim([0, 140])
 	ax.margins(x=0.01)
 	ax.spines[['right', 'top']].set_visible(False)
-	plt.savefig("SX_spacer_" + name + ".pdf", format='pdf',dpi=1200,bbox_inches='tight', pad_inches=0.25) 
+	plt.savefig("SX_spacer_" + allele + ".pdf", format='pdf',dpi=1200,bbox_inches='tight', pad_inches=0.25) 
 
 	
