@@ -1,7 +1,7 @@
 library(tidyverse)
 library(ggridges)
 
-data = read.csv("SX_ridgeline_data.csv") %>%
+data = read.csv("SX_spacer_coords.csv") %>%
   mutate(Allele = factor(Allele,
         levels = rev(c("1_1","1_2","2_1","2_2","3_1","3_2","4_1","4_2","5_1","5_2",
                    "6_1","6_2","7_1","8_1","8_2","9_1","9_2","10_1","10_2",
@@ -9,7 +9,7 @@ data = read.csv("SX_ridgeline_data.csv") %>%
                    "16_1","16_2","17_1","18_1","18_2")), ordered = T)) %>%
   mutate(Population = factor(Population))
 
-pdf("SX_ridgeline.pdf", height = 11, width = 8)
+pdf("SX_spacer_fig.pdf", height = 11, width = 8)
 ggplot(data, aes(x = Position, y = Allele, height = Point, scale = .007, 
             color = Population, fill = Population)) +
   geom_ridgeline(alpha = 1, linewidth = .001, show.legend = FALSE) + 
@@ -24,5 +24,4 @@ ggplot(data, aes(x = Position, y = Allele, height = Point, scale = .007,
         axis.title = element_text(size = 15),
         axis.text.y = element_text(vjust = 0),
         axis.ticks.y = element_blank())
-  ggsave("SX_ridgeline.png", height = 11, width = 8)
 dev.off()
