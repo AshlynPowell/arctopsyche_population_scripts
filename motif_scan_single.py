@@ -100,7 +100,7 @@ if __name__ == "__main__":
 	
 	motif = pull_motif(seq_to_pull, names, seqs, start, stop)
 
-	print(f"AA motif:\n  Length: {len(motif)}\n  {motif}")
+	print(f"Motif:\n  Length: {len(motif)}\n  {motif}")
 
 	index = names.index(seq_to_scan)
 	seq = seqs[index]
