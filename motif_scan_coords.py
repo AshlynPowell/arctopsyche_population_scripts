@@ -89,38 +89,26 @@ def get_population(allele):
 
 
 if __name__ == "__main__":
-	aa_file = "../../population_alignment/arcto_hfib_translation.fasta"
-	cds_file = "../../population_alignment/arcto_hfib_CDS.fasta"
+	fasta_file = argv[1]
+	seq_to_pull = argv[2] # name of sequence to pull from, format: individual_allele, i.e. 1_1
+	coordinates = argv[3] # coordinates of motif, format: start-stop, i.e. 300-400
 
-	aa_names, aa_seqs = read_fasta(aa_file)
-	cds_names, cds_seqs = read_fasta(cds_file)
+	names, seqs = read_fasta(fasta_file)
+	
+	start = int(coordinates.split("-")[0])
+	stop = int(coordinates.split("-")[1])
 
-	seq_to_pull = argv[1] # name of sequence to pull from, format: individual_allele, i.e. 1_1
-	coordinates = argv[2] # coordinates of motif (aa), format: start-stop, i.e. 300-400
+	motif = pull_motif(seq_to_pull, names, seqs, start, stop)
 
-	aa_start = int(coordinates.split("-")[0])
-	aa_stop = int(coordinates.split("-")[1])
-
-	cds_start = aa_start * 3
-	cds_stop = aa_stop * 3
-
-	aa_motif = pull_motif(seq_to_pull, aa_names, aa_seqs, aa_start, aa_stop)
-	cds_motif = pull_motif(seq_to_pull, cds_names, cds_seqs, cds_start, cds_stop)
-
-	print(f"AA motif:\n  Length: {len(aa_motif)}\n  {aa_motif}")
-	print(f"CDS motif:\n  Length: {len(cds_motif)}\n  {cds_motif}")
+	print(f"Motif:\n  Length: {len(motif)}\n  {motif}")
 
 	# Output a table with percent ID data to use when plotting in R
-	with open("ridgeline_data.csv", "w") as file:
-	# with open("ridgeline_data_aa.csv", "w") as file:
-	# with open("ridgeline_data_supp_aa.csv", "w") as file:
+	with open("motif_scan_coords.csv", "w") as file:
 		file.write("Population,Allele,Position,Percent\n")
-		for i, cds_seq in enumerate(cds_seqs):
-			name = cds_names[i]
-			aa_seq = aa_seqs[i]
+		for i, seq in enumerate(seqs):
+			name = names[i]
 			pop = get_population(name)
-			percents = slide_motif(name, cds_seq, cds_motif)
-			# percents = slide_motif(name, aa_seq, aa_motif)
+			percents = slide_motif(name, seq, motif)
 			for i, percent in enumerate(percents):
 				file.write(f"{pop},{name},{i},{percent}\n")
 
