@@ -1,4 +1,5 @@
 import re
+from sys import argv
 
 def read_fasta(fasta_file):
 	"""
@@ -50,13 +51,13 @@ def get_population(allele):
 
 
 if __name__ == "__main__":
-	fasta_file = "../../population_alignment/arcto_hfib_translation.fasta"
-	names, seqs = read_fasta(fasta_file)
+	alignment_file = argv[1]
+	names, seqs = read_fasta(alignment_file)
 	width = .7
 	gap = 1 - width
 
 	# Output a table with coordinates of bars to draw when plotting in R
-	with open("SX_ridgeline_data.csv", "w") as file:
+	with open("SX_spacer_coords.csv", "w") as file:
 		file.write("Population,Allele,Position,Point\n")
 		for i, seq in enumerate(seqs):
 			x = .5 + (gap/2)
