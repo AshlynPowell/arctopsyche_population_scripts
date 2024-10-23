@@ -35,15 +35,14 @@ def pull_motif(seq_name, names, seqs, start, stop):
 			seqs (list of strings) - sequences from fasta file (in the same order as names)
 			start (int) - start position of motif to pull
 			stop (int) - stop position of motif to pull
-	Return: seq (string) - DNA sequence that corresponds to seq_name
-			motif (string) - motif pulled from seq
+	Return: motif (string) - motif pulled from seq
 			
 	"""
 
 	index = names.index(seq_name)
 	seq = seqs[index]
 	motif = seq[start:stop]
-	return seq, motif
+	return motif
 
 def percent_id(seq1, seq2):
 	"""
@@ -76,65 +75,52 @@ def slide_motif(seq, motif):
 
 	return percents
 
-if __name__ == "__main__":
-	seq_to_pull = argv[1] # name of sequence to pull from, format: individual_allele, i.e. 1_1
-	coordinates = argv[2] # coordinates of motif (aa), format: start-stop, i.e. 300-400
-	seq_to_scan = argv[3] # name of sequence to scan, format: individual_allele, i.e. 1_1
-	pop = argv[4]
-	cds_or_aa = argv[5]
+def get_population(allele):
+	"""
+	Description: Return which population an allele is from
+	"""
+	pop1 = [1,2,3,4,5,6,7,8]
+	pop2 = [9,10,11,12,13,14,15,16,17,18]
 
-	aa_file = "../../population_alignment/arcto_hfib_translation.fasta"
-	cds_file = "../../population_alignment/arcto_hfib_CDS.fasta"
-
-	aa_names, aa_seqs = read_fasta(aa_file)
-	cds_names, cds_seqs = read_fasta(cds_file)
-
-	aa_start = int(coordinates.split("-")[0])
-	aa_stop = int(coordinates.split("-")[1])
-	
-	cds_start = aa_start * 3
-	cds_stop = aa_stop * 3
-
-	aa_seq, aa_motif = pull_motif(seq_to_pull, aa_names, aa_seqs, aa_start, aa_stop)
-	cds_seq, cds_motif = pull_motif(seq_to_pull, cds_names, cds_seqs, cds_start, cds_stop)
-
-	print(f"AA motif:\n  Length: {len(aa_motif)}\n  {aa_motif}")
-	print(f"CDS motif:\n  Length: {len(cds_motif)}\n  {cds_motif}")
-
-	if seq_to_scan != seq_to_pull:
-		index = cds_names.index(seq_to_scan)
-		cds_seq = cds_seqs[index]
-		aa_seq = aa_seqs[index]
-
-	if cds_or_aa == "aa":
-
-		percents = slide_motif(aa_seq, aa_motif)
-
-		fig, ax = plt.subplots()
-		fig.set_size_inches(16,4)
-		ax.plot(list(range(len(percents))), percents, lw=.5, color="#020080")
-		ax.set_title(f"Population: {pop}  Allele: {seq_to_scan}", loc="right", size=18)
-		ax.set_xlabel(f"Position in AA Sequence\n\nMotif: {aa_motif}", size=18)
-		ax.set_ylabel("Percent Identity", size=18)
-		ax.tick_params(axis='both', which='major', labelsize=14)
-		ax.xaxis.set_major_locator(MultipleLocator(500))
-		ax.xaxis.set_minor_locator(MultipleLocator(250))
-		ax.yaxis.set_major_locator(MultipleLocator(20))
-		ax.yaxis.set_minor_locator(MultipleLocator(10))
-		ax.spines[['right', 'top']].set_visible(False)
-		ax.margins(x=0.003)
-		plt.savefig(f"line_plot_aa({seq_to_pull},{coordinates},{seq_to_scan}).pdf", format="pdf", dpi=1200,bbox_inches='tight', pad_inches=0.25)
-
+	individual = int(allele.split("_")[0])
+	if individual in pop1:
+		return "1"
 	else:
-		percents = slide_motif(cds_seq, cds_motif)
+		return "2"
 
-		fig, ax = plt.subplots()
-		fig.set_size_inches(16,4)
-		ax.plot(list(range(len(percents))), percents, lw=.5)
-		ax.set_xlabel(f"Position in CDS Sequence\n\nPopulation: {pop}  Allele: {seq_to_scan}\nMotif: {aa_motif}", size=15)
-		ax.set_ylabel("Percent Identity", size=15)
-		ax.spines[['right', 'top']].set_visible(False)
-		ax.margins(x=0.003)
-		plt.savefig(f"line_plot({seq_to_pull},{coordinates},{seq_to_scan}).png",dpi=1200,bbox_inches='tight', pad_inches=0.25)
+if __name__ == "__main__":
+	fasta_file = argv[1]
+	seq_to_pull = argv[2] # name of sequence to pull from, format: individual_allele, i.e. 1_1
+	coordinates = argv[3] # coordinates of motif (aa), format: start-stop, i.e. 300-400
+	seq_to_scan = argv[4] # name of sequence to scan, format: individual_allele, i.e. 1_1
+	
+	names, seqs = read_fasta(fasta_file)
+	start = int(coordinates.split("-")[0])
+	stop = int(coordinates.split("-")[1])
+	
+	motif = pull_motif(seq_to_pull, names, seqs, start, stop)
+
+	print(f"AA motif:\n  Length: {len(motif)}\n  {motif}")
+
+	index = names.index(seq_to_scan)
+	seq = seqs[index]
+	pop = get_population(seq_to_scan)
+
+	percents = slide_motif(seq, motif)
+
+	fig, ax = plt.subplots()
+	fig.set_size_inches(16,4)
+	ax.plot(list(range(len(percents))), percents, lw=.5, color="#020080")
+	ax.set_title(f"Population: {pop}  Allele: {seq_to_scan}", loc="right", size=18)
+	ax.set_xlabel(f"Position in AA Sequence\n\nMotif: {motif}", size=18)
+	ax.set_ylabel("Percent Identity", size=18)
+	ax.tick_params(axis='both', which='major', labelsize=14)
+	ax.xaxis.set_major_locator(MultipleLocator(500))
+	ax.xaxis.set_minor_locator(MultipleLocator(250))
+	ax.yaxis.set_major_locator(MultipleLocator(20))
+	ax.yaxis.set_minor_locator(MultipleLocator(10))
+	ax.spines[['right', 'top']].set_visible(False)
+	ax.margins(x=0.003)
+	plt.savefig(f"motif_scan_single({seq_to_pull},{coordinates},{seq_to_scan}).pdf", format="pdf", dpi=1200,bbox_inches='tight', pad_inches=0.25)
 
 	
