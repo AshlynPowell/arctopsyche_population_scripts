@@ -43,10 +43,11 @@ def matches(seq):
 
 if __name__ == "__main__":
 	
-	fasta_file = "../../population_alignment/arcto_hfib_translation.fasta"
+	fasta_file = argv[1]
+	pop = argv[2]
+	name = argv[3]
+
 	names, seqs = read_fasta(fasta_file)
-	pop = argv[1]
-	name = argv[2]
 	
 	index = names.index(name)
 	seq = seqs[index]
