@@ -75,6 +75,6 @@ if __name__ == "__main__":
 	ax.set_ylim([0, 140])
 	ax.margins(x=0.01)
 	ax.spines[['right', 'top']].set_visible(False)
-	plt.savefig("SX_density_" + name + "_bar.pdf", format='pdf',dpi=1200,bbox_inches='tight', pad_inches=0.25) 
+	plt.savefig("SX_spacer_" + name + ".pdf", format='pdf',dpi=1200,bbox_inches='tight', pad_inches=0.25) 
 
 	
