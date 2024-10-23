@@ -51,8 +51,8 @@ def get_population(allele):
 
 
 if __name__ == "__main__":
-	alignment_file = argv[1]
-	names, seqs = read_fasta(alignment_file)
+	fasta_file = argv[1]
+	names, seqs = read_fasta(fasta_file)
 	width = .7
 	gap = 1 - width
 
