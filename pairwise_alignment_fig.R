@@ -4,7 +4,6 @@ library(tidyverse)
 codes = c('ArcGran', 'LepLine', 'AtoDavi', 'HimTibe', 'EubRegi', 'GlyPell', 'HesMag',
           'LimLuna', 'LimMarm', 'LimRhom', 'AthCine', 'CerDiss', 'MysLong', 'OdoAlbi')
 
-code = "HesMag"
 for (code in codes) {
   
   # Get the species full name from species_lookup.csv
