@@ -3,7 +3,7 @@ This repository includes the scripts used to analyze silk genes in populations o
 
 ## Figure 1: Alleles of single individuals from multiple species of caddisfly
 
-`pairwise_alignment_coords.py` performs a pairwise alignment of two alleles with MUSCLE then calculates the coordinates of each indel in the alignment and outputs the coornitates to a csv file. 
+`pairwise_alignment_coords.py` performs a pairwise alignment of two alleles with MUSCLE then calculates the coordinates of each indel in the alignment and outputs the coordinates to a csv file. 
 
 `pairwise_alignment_fig.R` uses the csv file outputted from `pairwise_alignment_coords.py` to create a plot of the pairwise alignment that highlights allele length and indel size and location.
 
@@ -25,6 +25,8 @@ This repository includes the scripts used to analyze silk genes in populations o
 
 `SX_spacer_fig.R` plots all of the distances calculated with `SX_spacer_coords.py`.
 
-## Supplemental figures: motif scancs and (SX)nE spacer patterns from individual alleles 
+## Supplemental figures: motif scans and (SX)nE spacer patterns from individual alleles 
 
 `motif_scan_single.py` and `SX_spacer_single.py` each create the motif scan and SX spacer plots on individual alleles. 
+
+
