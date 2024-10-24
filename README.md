@@ -23,10 +23,10 @@ This repository includes the scripts used to analyze silk genes in populations o
 
 `SX_spacer_coords.py` calculates the distance between serine blocks in each allele and outputs them to a csv file. 
 
-`SX_spacer_fig.R` plots all of the distances calculated with `SX_spacer_coords.py`.
+`SX_spacer_fig.R` plots all of the distances calculated with `SX_spacer_coords.py` in a ridgeline-style figure.
 
 ## Supplemental figures: motif scans and (SX)nE spacer patterns from individual alleles 
 
-`motif_scan_single.py` and `SX_spacer_single.py` each create the motif scan and SX spacer plots on individual alleles. 
+`motif_scan_single.py` and `SX_spacer_single.py` create the motif scan and SX spacer plots on individual alleles. 
 
 
