@@ -7,6 +7,12 @@ This repository includes the scripts used to analyze silk genes in populations o
 
 `pairwise_alignment_fig.R` uses the csv file outputted from `pairwise_alignment_coords.py` to create a plot of the pairwise alignment that highlights allele length and indel size and location.
 
+## Figure 2: Alignment of H-fibroin alleles from two A. grandis populations
+
+`population_alignment_coords.py` extracts pairwise alignments from a multiple sequence alignment then calculates the coordinates of each indel and outputs the coordinates to a csv file. Sequences are paired in order of individual and a separate csv file is created for each pair (1_1vs1_2coords.csv, 1_2vs2_1coords.csv, etc.).
+
+`population_alignment_fig.R` uses the csv files outputted from `population_alignment_coords.py` to create a plot of the multiple sequence alignment that highlights allele length and indel size and location.
+
 ## Figure 3: Indel histogram 
 
 `pull_indels.py` pulls all the indels from a multiple sequence alignment and outputs the data, including indel lengths and counts, to a csv file.
